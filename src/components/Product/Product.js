@@ -10,10 +10,15 @@ const Product = ({id, name, title, basePrice, colors, sizes}) => {
   // do stanu dodajemy informacje początkowe (domyślne). W tym wypadku są to pierwsze parametry
   const [currentColor, setCurrentColor] = useState(colors[0]); 
   const [currentSize, setCurrentSize] = useState(sizes[0].name);
+  const [currentPrice, setCurrentPrice] = useState(sizes[0].additionalPrice);
 
   const prepareColorClassName = color => {
     return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
-  }
+  };
+
+  const getPrice = (basePrice, currentPrice) => {
+    return basePrice + currentPrice;
+  };
 
   return (
     <article className={styles.product}>
@@ -26,7 +31,7 @@ const Product = ({id, name, title, basePrice, colors, sizes}) => {
       <div>
         <header>
           <h2 className={styles.name}>{title}</h2>
-          <span className={styles.price}>{basePrice}</span>
+          <span className={styles.price}>Price: {getPrice(basePrice, currentPrice)}$</span>
         </header>
         <form>
           <div className={styles.sizes}>
@@ -34,8 +39,11 @@ const Product = ({id, name, title, basePrice, colors, sizes}) => {
             <ul className={styles.choices}>
               {sizes.map((size) => (
                 <li key={shortid()}>
-                  <button type='button' onClick={() => {setCurrentSize(size.name);}} className={clsx(size.name === currentSize && styles.active)}>  {/* Jeśli chcemy użyć dwóch lub więcej klas, to jako className podajemy po prostu wywołanie funkcji clsx, gdzie argumentami są nazwy klas, których chcemy użyć. */}
-                      {console.log('currentSize:', currentSize)}
+                  <button type='button' onClick={() => {
+                    setCurrentSize(size.name);
+                    setCurrentPrice(size.additionalPrice);
+                    }} 
+                    className={clsx(size.name === currentSize && styles.active)}>  {/* Jeśli chcemy użyć dwóch lub więcej klas, to jako className podajemy po prostu wywołanie funkcji clsx, gdzie argumentami są nazwy klas, których chcemy użyć. */}
                       {size.name}                                                                                                                   {/* W tym wypadku robimy warunek który, jeśli rozmiar jest równy wybranemu elementowi to nadaj klase active */}
                   </button>
                 </li>))}
@@ -47,7 +55,9 @@ const Product = ({id, name, title, basePrice, colors, sizes}) => {
               {colors.map((color) => (
                 <li key={shortid()}>
                   <button type='button' 
-                  onClick={() => {setCurrentColor(color)}}
+                  onClick={() => {
+                    setCurrentColor(color)
+                  }}
                   className={clsx(prepareColorClassName(color), color === currentColor && styles.active)}/>
                 </li>
               ))}
