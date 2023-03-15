@@ -4,14 +4,13 @@ import OptionColor from '../OptionColor/OptionColor';
 import OptionSize from '../OptionSize/OptionSize';
 import PropTypes from 'prop-types';
 
-const ProductForm = ({cartSummary, sizes, currentSize, setCurrentSize, setCurrentPrice, colors, setCurrentColor, currentColor}) => {
+const ProductForm = ({setCurrentSizePlusPrice, currentSizePlusPrice, cartSummary, sizes, colors, setCurrentColor, currentColor}) => {
   return (
     <form onSubmit={cartSummary}>
     <OptionSize
       sizes={sizes}
-      setCurrentSize={setCurrentSize}
-      setCurrentPrice={setCurrentPrice}
-      currentSize={currentSize}
+      currentSizePlusPrice={currentSizePlusPrice}
+      setCurrentSizePlusPrice={setCurrentSizePlusPrice}
     />
     <OptionColor
       colors={colors}
@@ -27,9 +26,8 @@ const ProductForm = ({cartSummary, sizes, currentSize, setCurrentSize, setCurren
 
 ProductForm.propTypes = {
   sizes: PropTypes.array.isRequired,
-  setCurrentSize: PropTypes.func.isRequired,
-  setCurrentPrice: PropTypes.func.isRequired,
-  currentSize: PropTypes.string.isRequired,
+  currentSizePlusPrice: PropTypes.object.isRequired,
+  setCurrentSizePlusPrice: PropTypes.func.isRequired,
   colors: PropTypes.array.isRequired,
   setCurrentColor: PropTypes.func.isRequired,
   currentColor: PropTypes.string.isRequired,

@@ -8,13 +8,12 @@ const Product = ({name, title, basePrice, colors, sizes}) => {
   //Tworzymy stan ponieważ potrzebujemy zmiennych z wyborem użytkownika, jaki kolor, rozmiar etc
   // do stanu dodajemy informacje początkowe (domyślne). W tym wypadku są to pierwsze parametry
   const [currentColor, setCurrentColor] = useState(colors[0]); 
-  const [currentSize, setCurrentSize] = useState(sizes[0].name);
-  const [currentPrice, setCurrentPrice] = useState(sizes[0].additionalPrice);
+  const [currentSizePlusPrice, setCurrentSizePlusPrice] = useState(sizes[0]);
 
   const price = useMemo(() => {
-    const getPrice = basePrice  + currentPrice;
-      return getPrice
-  }, [basePrice, currentPrice]);
+    const calculatedPrice = basePrice  + currentSizePlusPrice.additionalPrice;
+      return calculatedPrice
+  }, [basePrice, currentSizePlusPrice.additionalPrice]);
 
   const cartSummary = e => {
     e.preventDefault();
@@ -22,7 +21,7 @@ const Product = ({name, title, basePrice, colors, sizes}) => {
     console.log('==============');
     console.log('Name: ', title);
     console.log('Price: ', price);
-    console.log('Size: ', currentSize);
+    console.log('Size: ', currentSizePlusPrice.name);
     console.log('Color: ', currentColor);
   };
 
@@ -37,12 +36,11 @@ const Product = ({name, title, basePrice, colors, sizes}) => {
         <ProductForm
           cartSummary={cartSummary}
           sizes={sizes}
-          currentSize={currentSize}
-          setCurrentSize={setCurrentSize}
-          setCurrentPrice={setCurrentPrice}
           colors={colors}
           setCurrentColor={setCurrentColor}
           currentColor={currentColor}
+          currentSizePlusPrice={currentSizePlusPrice}
+          setCurrentSizePlusPrice={setCurrentSizePlusPrice}
           />
       </div>
     </article>
